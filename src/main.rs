@@ -1,14 +1,10 @@
 use std::fs;
 fn main() {
-    let content = fs::read_to_string("test1.a").unwrap();
+    let content = fs::read_to_string("input.asm").unwrap();
     for line in content.lines() {
         let (op, rest) = line.split_once(" ").unwrap();
         let (r2, r1) = rest.split_once(", ").unwrap();
-        let r1 = if r1.starts_with("r") {
-            &r1[1..]
-        } else {
-            r1
-        };
+        let r1 = if r1.starts_with("r") { &r1[1..] } else { r1 };
         let r2 = if r2.starts_with("r") {
             &r2[1..]
         } else {
@@ -76,7 +72,5 @@ fn main() {
         let r2 = format!("{:0holding$b}", r2);
 
         println!("{}{}{}{}", op.0, r1, op.1, r2);
-
-
     }
 }
