@@ -1,6 +1,9 @@
 use std::fs;
+use std::env;
 fn main() {
-    let content = fs::read_to_string("input.asm").unwrap();
+    let argv: Vec<String> = env::args().collect();
+    let file = argv[1].to_string();
+    let content = fs::read_to_string(file).expect("Cannot find file!");
     for line in content.lines() {
         let (op, rest) = line.split_once(" ").unwrap();
         let (rsrc, rdest) = rest.split_once(", ").unwrap();
