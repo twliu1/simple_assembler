@@ -66,10 +66,8 @@ fn main() {
             "bcond" => ("1100", ""),
             "jcond" => ("0100", "1100"),
             "jal" => ("0100", "1000"),
-            _ => panic!("Invalid Command: {op}"),
+            _ => panic!("Invalid command: {op}"),
         };
-
-
-        println!("{}{}{}{}", op.0, rdest, op.1, rsrc);
+        println!("16'b{}{}{}{}  // {}", op.0, rdest, op.1, rsrc, line);
     }
 }

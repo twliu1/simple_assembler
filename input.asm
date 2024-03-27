@@ -20,3 +20,4 @@ mov r4, r3
 load r12, r3
 stor r11, r12
 jcond r11, eq
+or r0, r0
