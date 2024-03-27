@@ -1,7 +1,7 @@
 movi 18, r2
 add r1, r2
 sub r2, r1
-subi r2, 12
+subi 12, r2
 xor r1, r2
 and r1, r2
 or r1, r2
@@ -19,3 +19,4 @@ movi 1, r3
 mov r4, r3
 load r12, r3
 stor r11, r12
+jcond r11, eq

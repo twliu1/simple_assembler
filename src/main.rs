@@ -3,15 +3,15 @@ fn main() {
     let content = fs::read_to_string("input.asm").unwrap();
     for line in content.lines() {
         let (op, rest) = line.split_once(" ").unwrap();
-        let (r2, r1) = rest.split_once(", ").unwrap();
-        let r1 = if r1.starts_with("r") { &r1[1..] } else { r1 };
-        let r2 = if r2.starts_with("r") {
-            &r2[1..]
+        let (rsrc, rdest) = rest.split_once(", ").unwrap();
+
+        let rdest = if rdest.starts_with("r") {
+            format!("{:04b}", rdest[1..].trim().parse::<u32>().unwrap())
         } else {
-            if r2.trim().chars().all(|c| c.is_numeric()) {
-                r2
+            if rdest.trim().chars().all(|c| c.is_numeric()) {
+                format!("{:04b}", rdest.trim().parse::<u32>().unwrap())
             } else {
-                match r2.trim() {
+                match rdest.trim() {
                     "eq" => "0000",
                     "ne" => "0001",
                     "ge" => "1101",
@@ -28,12 +28,17 @@ fn main() {
                     "lt" => "1100",
                     "uc" => "1110",
                     _ => "1111",
-                }
+                }.to_string()
             }
         };
 
-        let r1: u32 = r1.trim().parse().unwrap();
-        let r2: u32 = r2.trim().parse().unwrap();
+        let rsrc = if rsrc.starts_with("r") {
+            format!("{:04b}", rsrc[1..].trim().parse::<u32>().unwrap())
+        } else if op == "lshi" {
+            format!("{:04b}", rsrc.trim().parse::<u32>().unwrap())
+        } else {
+            format!("{:08b}", rsrc.trim().parse::<u32>().unwrap())
+        };
 
         let op = match op {
             "add" => ("0000", "0101"),
@@ -61,16 +66,7 @@ fn main() {
             _ => panic!("Invalid Command: {op}"),
         };
 
-        let mut holding = 4;
 
-        let r1 = format!("{:0holding$b}", r1);
-
-        if op.1.is_empty() {
-            holding = 8;
-        }
-
-        let r2 = format!("{:0holding$b}", r2);
-
-        println!("{}{}{}{}", op.0, r1, op.1, r2);
+        println!("{}{}{}{}", op.0, rdest, op.1, rsrc);
     }
 }
