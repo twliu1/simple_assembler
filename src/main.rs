@@ -5,6 +5,9 @@ fn main() {
     let file = argv[1].to_string();
     let content = fs::read_to_string(file).expect("Cannot find file!");
     for line in content.lines() {
+        if line.is_empty() {
+            continue;
+        }
         let (op, rest) = line.split_once(" ").unwrap();
         let (rsrc, rdest) = rest.split_once(", ").unwrap();
 
