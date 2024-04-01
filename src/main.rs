@@ -10,6 +10,7 @@ fn main() {
         }
         let (op, rest) = line.split_once(" ").unwrap();
         let (rsrc, rdest) = rest.split_once(", ").unwrap();
+        let (rsrc, rdest) = if op == "load" || op == "stor" {(rdest, rsrc)} else {(rsrc, rdest)};
 
         let rdest = if rdest.starts_with("r") {
             format!("{:04b}", rdest[1..].trim().parse::<u32>().unwrap())
